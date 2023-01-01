@@ -1,5 +1,6 @@
 from flask import render_template, url_for, session, redirect, flash, Blueprint, request
-from main import db
+from ..tools import authentication
+from ..main import db
 
 
 dashboard = Blueprint('dashboard', __name__, url_prefix='/dashbord')
@@ -7,6 +8,7 @@ dashboard = Blueprint('dashboard', __name__, url_prefix='/dashbord')
 
 # index dashboard
 @dashboard.route('/')
+@authentication
 def index():
     return render_template('dashboard.html')
 

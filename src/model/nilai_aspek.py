@@ -1,4 +1,4 @@
-from main import db
+from src.main import db
 from sqlalchemy import func
 
 
@@ -18,7 +18,6 @@ class NilaiAspekPegawai(db.Model):
     updated_at = db.Column(db.DateTime(timezone=True))
 
     def __init__(self, id_pegawai, nilia_skp, orientasi, integritas, komitmen, disiplin, kerjasama, tahun) -> None:
-        super().__init__()
         self.id_pegawai = id_pegawai
         self.nilai_skp = nilia_skp
         self.orientasi = orientasi
