@@ -2,6 +2,9 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
+config = {
+    'DEBUG': True,
+}
 
 
 def create_app():
@@ -13,11 +16,15 @@ def create_app():
 
     db.init_app(app)
 
+    app.config.from_mapping(config)
+
     from .blueprint import auth, dashboard
     app.register_blueprint(auth)
     app.register_blueprint(dashboard)
 
     return app
-# if __name__ == "__main__":
 
-#     app.run(debug=True)
+
+if __name__ == "__main__":
+    cap = create_app()
+    cap.run(debug=True)
