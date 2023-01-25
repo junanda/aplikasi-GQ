@@ -19,7 +19,7 @@ def index():
 def alldata():
     l_active = 'active'
     dataPegawai = db.engine.execute(
-        "select a.nama_pegawai, b.* from pegawai a left join nilai_aspek_pegawai b on a.id_pegawai=b.id_pegawai")
+        "select a.nama_pegawai, b.* from pegawai a right join nilai_aspek_pegawai b on a.id_pegawai=b.id_pegawai")
     thun = db.session.query(nilai_aspek.NilaiAspekPegawai.tahun).distinct()
 
     return render_template('data_aspek.html', year=thun, dataAspek=dataPegawai, active_b=l_active)
@@ -96,5 +96,5 @@ def newData():
         db.session.commit()
         flash('record was successfully added')
         return redirect(url_for('dashboard.alldata'))
-    pdata = db.engine.execute("select * from pegawai")
-    return render_template('view_form_data_aspek.html', data=pdata)
+    dnama = db.engine.execute("select * from pegawai")
+    return render_template('view_form_data_aspek.html', data=dnama)
