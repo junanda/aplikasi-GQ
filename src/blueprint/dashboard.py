@@ -64,7 +64,7 @@ def deleteData(idpegawai):
     dataPegawai = pegawai.Pegawai.query.get(idpegawai)
     db.session.delete(dataPegawai)
     db.session.commit()
-    return redirect(url_for('alldata'))
+    return redirect(url_for('dasboard.alldata'))
 
 
 # tambah data training/pegawai
