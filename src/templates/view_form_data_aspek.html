@@ -1,10 +1,21 @@
 {% extends "dashboard.html" %}
 {% block body %}
 <div class="bg-light border rounded-3" style="padding: 10px;">
-    <h5>Form Edit Data</h5>
-    <form action="{{ url_for('dashboard.update')}}" method="post">
+    <h5>Form Tambah Data Nilai Pegawai</h5>
+    <form action="{{ request.path }}" method="post">
         <div class="row align-items-start">
             <div class="col-6">
+                <div>
+                    <label for="pegawai" class="form-label">Nama Pegawai</label>
+                    <select name="id_pegawai" class="form-control">
+                        <option value=1>---</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="tahun" class="form-label">Tahun</label>
+                    <input type="text" name="tahun" id="tahun" class="form-control" placeholder="Tahun"
+                        value="0000">
+                </div>
                 <div>
                     <label for="nilai skp" class="form-label">Nilai SKP</label>
                     <input type="number" name="nilai_skp" id="nilai_skp" class="form-control" placeholder="Nilai SKP"
@@ -15,13 +26,13 @@
                     <input type="number" name="nilai_orientasi" id="nilai_orientasi" class="form-control"
                         placeholder="Nilai Orientasi" value="0.0">
                 </div>
+            </div>
+            <div class="col-6">
                 <div>
                     <label for="nilai integritas" class="form-label">Nilai Integritas</label>
                     <input type="number" name="nilai_integritas" id="nilai_integritas" class="form-control"
                         placeholder="Nilai Integritas" value="0.0">
                 </div>
-            </div>
-            <div class="col-6">
                 <div>
                     <label for="nilai komitmen" class="form-label">Nilai Komitmen</label>
                     <input type="number" name="nilai_komitmen" id="nilai_komitmen" class="form-control"
@@ -39,8 +50,8 @@
                 </div>
             </div>
         </div>
-        <br/>
-        <button class="btn btn-primary" type="submit">Update</button>
+        <br />
+        <button class="btn btn-primary" type="submit">Submit</button> <button type="reset" class="btn btn-danger">Reset</button>
     </form>
 </div>
 {% endblock %}

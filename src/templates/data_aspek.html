@@ -14,7 +14,7 @@
             {% endif %}
         </div>
         <div class="col-10">
-            <a href="" class="btn btn-primary" style="margin-bottom: 10px;">Tambah Data</a>
+            <a href="/dashbord/data-aspek/tambah-data" class="btn btn-primary" style="margin-bottom: 10px;">Tambah Data</a>
             <table class="table table-hover">
                 <thead class="table-dark">
                     <tr>
@@ -42,7 +42,7 @@
                         <td>{{ data.disiplin }}</td>
                         <td>{{ data.kerjasama }}</td>
                         <td><a href="/dashbord/data-aspek/edit/{{data.id_aspek}}">Edit</a> | <a
-                                href="/dashboad/data-aspek/delete/{{data.id_aspek}}">Delete</a></td>
+                                href="/dashbord/data-aspek/delete/{{data.id_aspek}}">Delete</a></td>
                     </tr>
                     {%  set n = n+1 %}
                     {% endfor %}
