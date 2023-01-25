@@ -64,11 +64,7 @@ def deleteData(idpegawai):
     # dataPegawai = pegawai.Pegawai.query.get(idpegawai)
     # db.session.delete(dataPegawai)
     db.session.commit()
-<<<<<<< HEAD
-    return redirect(url_for('dasboard.alldata'))
-=======
     return redirect(url_for('dashboard.alldata'))
->>>>>>> 5f232d320090894e44bf1f3de5bce5b9de1323f5
 
 
 # tambah data training/pegawai
@@ -100,4 +96,5 @@ def newData():
         db.session.commit()
         flash('record was successfully added')
         return redirect(url_for('dashboard.alldata'))
-    return render_template('view_form_data_aspek.html')
+    pdata = db.engine.execute("select * from pegawai")
+    return render_template('view_form_data_aspek.html', data=pdata)

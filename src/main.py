@@ -7,9 +7,10 @@ config = {
 }
 
 userDb = "root"
-passDB = ""
+passDB = "triadpass"
 host = "localhost"
 dbName = "gina_cluster"
+
 
 def create_app():
     app = Flask(__name__)
