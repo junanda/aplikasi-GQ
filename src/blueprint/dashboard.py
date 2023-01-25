@@ -60,16 +60,44 @@ def update():
 @authentication
 def deleteData(idpegawai):
     db.engine.execute(
-        "delete from nilai_aspek_pegawai where id_pegawai='"+idpegawai+"'")
-    dataPegawai = pegawai.Pegawai.query.get(idpegawai)
-    db.session.delete(dataPegawai)
+        "delete from nilai_aspek_pegawai where id_aspek='"+idpegawai+"'")
+    # dataPegawai = pegawai.Pegawai.query.get(idpegawai)
+    # db.session.delete(dataPegawai)
     db.session.commit()
+<<<<<<< HEAD
     return redirect(url_for('dasboard.alldata'))
+=======
+    return redirect(url_for('dashboard.alldata'))
+>>>>>>> 5f232d320090894e44bf1f3de5bce5b9de1323f5
 
 
 # tambah data training/pegawai
-@dashboard.route('/tambah-data', methods=('GET', 'POST'))
+@dashboard.route('/data-aspek/tambah-data', methods=('GET', 'POST'))
 @authentication
 def newData():
     if request.method == 'POST':
-        pass
+        idPegawai = request.form['id_pegawai']
+        nilaiASpek = request.form['nilai_skp']
+        orientasi = request.form['nilai_orientasi']
+        integritas = request.form['nilai_integritas']
+        komitmen = request.form['nilai_komitmen']
+        disiplin = request.form['nilai_disiplin']
+        kerjasama = request.form['nilai_kerjasama']
+        tahun = request.form['tahun']
+
+        data = nilai_aspek.NilaiAspekPegawai(
+            id_pegawai=idPegawai,
+            nilia_skp=nilaiASpek,
+            orientasi=orientasi,
+            integritas=integritas,
+            komitmen=komitmen,
+            disiplin=disiplin,
+            kerjasama=kerjasama,
+            tahun=tahun
+        )
+
+        db.session.add(data)
+        db.session.commit()
+        flash('record was successfully added')
+        return redirect(url_for('dashboard.alldata'))
+    return render_template('view_form_data_aspek.html')
