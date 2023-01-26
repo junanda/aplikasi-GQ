@@ -38,6 +38,7 @@ def updatePegawai(idpegawai):
 @bpegawai.route('/delete/<idpegawai>')
 @authentication
 def delete(idpegawai):
+    db.engine.execute("delete from nilai_aspek_pegawai where id_pegawai='"+idpegawai+"'")
     db.engine.execute("delete from pegawai where id_pegawai='"+idpegawai+"'")
     flash('Delete data successfull')
     return redirect(url_for('pegawai.index'))

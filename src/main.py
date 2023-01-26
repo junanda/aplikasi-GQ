@@ -1,15 +1,16 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+import os
 
 db = SQLAlchemy()
 config = {
     'DEBUG': True,
 }
 
-userDb = "root"
-passDB = "triadpass"
-host = "localhost"
-dbName = "gina_cluster"
+userDb = os.getenv("USER_DB")
+passDB = os.getenv("PASS_DB")
+host = os.getenv("HOST_DB")
+dbName = os.getenv("NAME_DB")
 
 
 def create_app():

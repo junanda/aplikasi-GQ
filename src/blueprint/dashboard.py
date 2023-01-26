@@ -19,7 +19,7 @@ def index():
 def alldata():
     l_active = 'active'
     dataPegawai = db.engine.execute(
-        "select a.nama_pegawai, b.* from pegawai a right join nilai_aspek_pegawai b on a.id_pegawai=b.id_pegawai")
+        "select a.nama_pegawai, b.* from pegawai a inner join nilai_aspek_pegawai b on a.id_pegawai=b.id_pegawai")
     thun = db.session.query(nilai_aspek.NilaiAspekPegawai.tahun).distinct()
 
     return render_template('data_aspek.html', year=thun, dataAspek=dataPegawai, active_b=l_active)
