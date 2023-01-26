@@ -50,9 +50,7 @@ def update():
 
         query = f"update nilai_aspek_pegawai set nilai_skp='{skp}', orientasi='{orientasi}', integritas='{integritas}', komitmen='{komitmen}', disiplin='{disiplin}', kerjasama='{kerjasama}' where id_aspek='{idapk}'"
         db.engine.execute(query)
-
-        flash(f"data dengan id {id} berhasil di update")
-        return redirect(url_for('dashboard.dataUpdate', id_data=idapk))
+        return redirect(url_for('dashboard.alldata'))
 
 
 # delete data pegawai

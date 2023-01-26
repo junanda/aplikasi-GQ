@@ -31,8 +31,9 @@ def updatePegawai(idpegawai):
         db.engine.execute("update pegawai set nama_pegawai='"+unama+"' where id_pegawai='"+idp+"'")
         flash('Data successully update')
         return redirect(url_for('pegawai.index'))
+    l_active = 'active'
     dataPegawai = db.engine.execute("select * from pegawai where id_pegawai='"+idpegawai+"'")
-    return render_template('form_update_pegawai.html', data=dataPegawai)
+    return render_template('form_update_pegawai.html', data=dataPegawai, active_c=l_active)
 
 # delete pegawai
 @bpegawai.route('/delete/<idpegawai>')

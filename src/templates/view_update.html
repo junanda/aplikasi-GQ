@@ -4,40 +4,43 @@
     <h5>Form Edit Data</h5>
     <form action="{{ url_for('dashboard.update')}}" method="post">
         <div class="row align-items-start">
+            {% for udata in data %}
+            <input type="hidden" name="id_aspek" value="{{udata.id_aspek}}">
             <div class="col-6">
                 <div>
                     <label for="nilai skp" class="form-label">Nilai SKP</label>
-                    <input type="number" name="nilai_skp" id="nilai_skp" class="form-control" placeholder="Nilai SKP"
-                        value="0.0">
+                    <input type="number" name="nilai_skp" step="any" id="nilai_skp" class="form-control" placeholder="Nilai SKP"
+                        value="{{udata.nilai_skp}}">
                 </div>
                 <div>
                     <label for="orientasi" class="form-label">Orientasi</label>
-                    <input type="number" name="nilai_orientasi" id="nilai_orientasi" class="form-control"
-                        placeholder="Nilai Orientasi" value="0.0">
+                    <input type="number" name="nilai_orientasi" step="any" id="nilai_orientasi" class="form-control"
+                        placeholder="Nilai Orientasi" value="{{udata.orientasi}}">
                 </div>
                 <div>
                     <label for="nilai integritas" class="form-label">Nilai Integritas</label>
-                    <input type="number" name="nilai_integritas" id="nilai_integritas" class="form-control"
-                        placeholder="Nilai Integritas" value="0.0">
+                    <input type="number" name="nilai_integritas" step="any" id="nilai_integritas" class="form-control"
+                        placeholder="Nilai Integritas" value="{{udata.integritas}}">
                 </div>
             </div>
             <div class="col-6">
                 <div>
                     <label for="nilai komitmen" class="form-label">Nilai Komitmen</label>
-                    <input type="number" name="nilai_komitmen" id="nilai_komitmen" class="form-control"
-                        placeholder="Nilai Komitmen" value="0.0">
+                    <input type="number" name="nilai_komitmen" step="any" id="nilai_komitmen" class="form-control"
+                        placeholder="Nilai Komitmen" value="{{udata.komitmen}}">
                 </div>
                 <div>
                     <label for="nilai disiplin" class="form-label">Nilai Disiplin</label>
-                    <input type="number" name="nilai_disiplin" id="nilai_disiplin" class="form-control"
-                        placeholder="Nilai Disiplin" value="0.0">
+                    <input type="number" name="nilai_disiplin" step="any" id="nilai_disiplin" class="form-control"
+                        placeholder="Nilai Disiplin" value="{{udata.disiplin}}">
                 </div>
                 <div>
                     <label for="nilai kerjasama" class="form-label">Nilai kerjasama</label>
-                    <input type="number" name="nilai_kerjasama" id="nilai_kerjasama" class="form-control"
-                        placeholder="Nilai Kerjasama" value="0.0">
+                    <input type="number" name="nilai_kerjasama" step="any" id="nilai_kerjasama" class="form-control"
+                        placeholder="Nilai Kerjasama" value="{{udata.kerjasama}}">
                 </div>
             </div>
+            {% endfor %}
         </div>
         <br/>
         <button class="btn btn-primary" type="submit">Update</button>
