@@ -16,12 +16,19 @@ def index():
 
 # list data pegawai
 @dashboard.route('/data-aspek', methods=('POST', 'GET'))
-def alldata():
+@dashboard.route('/data-aspek/<pg>', methods=('POST', 'GET'))
+@dashboard.route('/data-aspek/tahun/<thun>', methods=('POST', 'GET'))
+@dashboard.route('/data-aspek/tahun/<thun>/<pg>', methods=('POST', 'GET'))
+def alldata(pg=0, thun="all"):
     l_active = 'active'
     dataPegawai = db.engine.execute(
-        "select a.nama_pegawai, b.* from pegawai a inner join nilai_aspek_pegawai b on a.id_pegawai=b.id_pegawai")
-    thun = db.session.query(nilai_aspek.NilaiAspekPegawai.tahun).distinct()
+        "select a.nama_pegawai, b.* from pegawai a inner join nilai_aspek_pegawai b on a.id_pegawai=b.id_pegawai offset " + str(pg*10) + " rows")
+    if thun != 'all':
+        dataPegawai = db.engine.execute(
+            "select a.nama_pegawai, b.* from pegawai a inner join nilai_aspek_pegawai b on a.id_pegawai=b.id_pegawai where b.tahun = '"+thun+"' offset " + str(pg*10) + " rows")
 
+    print(dataPegawai)
+    thun = db.session.query(nilai_aspek.NilaiAspekPegawai.tahun).distinct()
     return render_template('data_aspek.html', year=thun, dataAspek=dataPegawai, active_b=l_active)
 
 

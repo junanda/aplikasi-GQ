@@ -7,14 +7,15 @@
             <h5>Tahun</h5>
             {% if year %}
             {% for thun in year %}
-            <a href="#">{{thun.tahun}}</a>
+            <a href="/dashbord/data-aspek/tahun/{{thun.tahun}}">{{thun.tahun}}</a><br />
             {% endfor %}
             {% else %}
             <div class="alert alert-warning" role="alert">Data tidak ada</div>
             {% endif %}
         </div>
         <div class="col-10">
-            <a href="/dashbord/data-aspek/tambah-data" class="btn btn-primary" style="margin-bottom: 10px;">Tambah Data</a>
+            <a href="/dashbord/data-aspek/tambah-data" class="btn btn-primary" style="margin-bottom: 10px;">Tambah
+                Data</a>
             <table class="table table-hover">
                 <thead class="table-dark">
                     <tr>
