@@ -2,6 +2,7 @@ from flask import render_template, url_for, session, redirect, flash, Blueprint,
 from ..tools import authentication
 from ..main import db
 from ..model import nilai_aspek, pegawai
+import math
 
 dashboard = Blueprint('dashboard', __name__, url_prefix='/dashbord')
 
@@ -14,25 +15,33 @@ def index():
     return render_template('dashboard.html', active_a=l_active)
 
 
-# list data pegawai
-@dashboard.route('/data-aspek', methods=('POST', 'GET'))
+# list data aspek nilia pegawai
+@dashboard.route('/data-aspek/', methods=('POST', 'GET'))
 @dashboard.route('/data-aspek/<pg>', methods=('POST', 'GET'))
 @dashboard.route('/data-aspek/tahun/<thun>', methods=('POST', 'GET'))
 @dashboard.route('/data-aspek/tahun/<thun>/<pg>', methods=('POST', 'GET'))
 def alldata(pg=0, thun="all"):
     l_active = 'active'
-    dataPegawai = db.engine.execute(
-        "select a.nama_pegawai, b.* from pegawai a inner join nilai_aspek_pegawai b on a.id_pegawai=b.id_pegawai offset " + str(pg*10) + " rows")
+    dis_able = True
+
     if thun != 'all':
-        dataPegawai = db.engine.execute(
-            "select a.nama_pegawai, b.* from pegawai a inner join nilai_aspek_pegawai b on a.id_pegawai=b.id_pegawai where b.tahun = '"+thun+"' offset " + str(pg*10) + " rows")
+        query = f"select a.nama_pegawai, b.* from pegawai a inner join nilai_aspek_pegawai b on a.id_pegawai=b.id_pegawai where b.tahun='{thun}' limit 10  offset {str(int(pg)*10)}"
+        query2 = f"select a.nama_pegawai, b.* from pegawai a inner join nilai_aspek_pegawai b on a.id_pegawai=b.id_pegawai where b.tahun='{thun}'"
+    else:
+        query = f"select a.nama_pegawai, b.* from pegawai a inner join nilai_aspek_pegawai b on a.id_pegawai=b.id_pegawai limit 10 offset {str(int(pg)*10)}"
+        query2 = f"select a.nama_pegawai, b.* from pegawai a inner join nilai_aspek_pegawai b on a.id_pegawai=b.id_pegawai"
+    
+    dataPegawai = db.engine.execute(query)
+    allRow = db.engine.execute(query2)
+    totalPage = math.ceil(len(allRow.fetchall())/10)
 
-    print(dataPegawai)
+    if int(pg) > 0 and int(pg) <= totalPage:
+        dis_able = False
     thun = db.session.query(nilai_aspek.NilaiAspekPegawai.tahun).distinct()
-    return render_template('data_aspek.html', year=thun, dataAspek=dataPegawai, active_b=l_active)
+    return render_template('data_aspek.html', year=thun, dataAspek=dataPegawai, active_b=l_active, total_page=totalPage, hal=pg, disabled=dis_able)
 
 
-# view updata data pegawai
+# view updata data aspek nilai pegawai
 @dashboard.route('/data-aspek/edit/<id_data>', methods=('POST', 'GET'))
 @authentication
 def dataUpdate(id_data):

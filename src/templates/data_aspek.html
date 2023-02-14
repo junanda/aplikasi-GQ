@@ -31,10 +31,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% set n = 1 %}
                     {% for data in dataAspek %}
                     <tr>
-                        <td>{{ n }}</td>
+                        <td>#</td>
                         <td>{{ data.nama_pegawai }}</td>
                         <td>{{ data.nilai_skp }}</td>
                         <td>{{ data.orientasi }}</td>
@@ -45,10 +44,36 @@
                         <td><a href="/dashbord/data-aspek/edit/{{data.id_aspek}}">Edit</a> | <a
                                 href="/dashbord/data-aspek/delete/{{data.id_aspek}}">Delete</a></td>
                     </tr>
-                    {%  set n = n+1 %}
                     {% endfor %}
                 </tbody>
             </table>
+            <nav aria-label="Page navigation example">
+                 {% set number = hal|int + 1 %}
+                 {% set prenumber = hal|int - 1 %}
+                <ul class="pagination justify-content-center">
+                    {% if disabled %}
+                        <li class="page-item disabled">
+                    {% else %}
+                        <li class="page-item">
+                    {% endif %}
+                        <a class="page-link" href="/dashbord/data-aspek/{{prenumber}}">Previous</a>
+                    </li>
+                    {% for n in range(1, total_page) %}
+                        {% if hal|int == n %}
+                            <li class="page-item disabled"><a class="page-link" href="/dashbord/data-aspek/{{n}}">{{n}}</a></li>
+                        {% else %}
+                            <li class="page-item"><a class="page-link" href="/dashbord/data-aspek/{{n}}">{{n}}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if hal == total_page %}
+                        <li class="page-item disabled">
+                    {% else %}
+                        <li class="page-item">
+                    {% endif %}
+                        <a class="page-link" href="/dashbord/data-aspek/{{number}}">Next</a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 </div>
