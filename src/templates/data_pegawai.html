@@ -29,6 +29,34 @@
                     {% endfor %}
                 </tbody>
             </table>
+            <br/>
+            <nav aria-label="Page navigation example">
+                 {% set number = hal|int + 1 %}
+                 {% set prenumber = hal|int - 1 %}
+                <ul class="pagination justify-content-center">
+                    {% if disabled %}
+                        <li class="page-item disabled">
+                    {% else %}
+                        <li class="page-item">
+                    {% endif %}
+                        <a class="page-link" href="/pegawai/{{prenumber}}">Previous</a>
+                    </li>
+                    {% for n in range(1, total_page) %}
+                        {% if hal|int == n %}
+                            <li class="page-item disabled"><a class="page-link" href="/pegawai/{{n}}">{{n}}</a></li>
+                        {% else %}
+                            <li class="page-item"><a class="page-link" href="/pegawai/{{n}}">{{n}}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if number == total_page %}
+                        <li class="page-item disabled">
+                    {% else %}
+                        <li class="page-item">
+                    {% endif %}
+                        <a class="page-link" href="/pegawai/{{number}}">Next</a>
+                    </li>
+                </ul>
+            </nav>
         </div>
         <div class="col-6">
             <h5>Tambah data pegawai</h5>
