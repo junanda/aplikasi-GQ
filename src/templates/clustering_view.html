@@ -1,0 +1,94 @@
+{% extends "dashboard.html" %}
+{% block body %}
+<div class="bg-light border rounded-3" style="padding: 10px;min-height: 800px;">
+    <h2>K-Means Clustering</h2>
+    <div class="row">
+        <div class="col-6">
+            <img src="{{ url_for('static',filename='images/elbow.png') }}" alt="image elbow" class="img-fluid">
+            <p class="lead text-center">
+                Gambar hasil pengujian untuk menentukan cluster yang optimum dengan metode Elbow
+            </p>
+        </div>
+        <div class="col-6">
+            <h4>Information</h4>
+            <dl class="row">
+                <dt class="col-sm-4">Algorithms</dt>
+                <dd class="col-sm-8">K-Means - CLustering Algiruthms</dd>
+
+                <dt class="col-sm-4">Number of Cluster</dt>
+                <dd class="col-sm-8">2 Cluster</dd>
+
+                <dt class="col-sm-4">Number of Data</dt>
+                <dd class="col-sm-8">{{numberAllData}} Data</dd>
+
+                <dt class="col-sm-4">Models versions</dt>
+                <dd class="col-sm-8">kmeans-v1.0.0</dd>
+
+                <dt class="col-sm-4">Feature</dt>
+                <dd class="col-sm-8">Nilai skp, Orientasi, Integritas, Komitmen, Disiplin, Kerjasama</dd>
+
+                <dt class="col-sm-4">Number of Data cluster</dt>
+                <dd class="col-sm-8">
+                    <dl class="row">
+                        <dt class="col-sm-4">Data Cluster</dt>
+                        <dd class="col-sm-8">{{dataCluster}} Data</dd>
+                        <dt class="col-sm-4">Cluster One</dt>
+                        <dd class="col-sm-8">{{clus_1}} Data</dd>
+                        <dt class="col-sm-4">Cluster Two</dt>
+                        <dd class="col-sm-8">{{clus_2}} Data</dd>
+                        <dt class="col-sm-4">Data not train</dt>
+                        <dd class="col-sm-8">{{no_label}} Data</dd>
+                    </dl>
+                </dd>
+
+            </dl>
+            <div class="row align-items-center">
+                <div class="col"></div>
+                <div class="col"></div>
+                <div class="col"><button id="btn-train" type="submit" class="btn btn-primary">Train Cluster</button></div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 10px;">
+        <div class="col-12">
+            <h4>Data cluster</h4>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nilai SKP</th>
+                        <th>Orientasi</th>
+                        <th>Integritas</th>
+                        <th>Komitmen</th>
+                        <th>Disiplin</th>
+                        <th>Kerjasama</th>
+                        <th>Cluster</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if data_cluster|length == 0 %}
+                        <tr>
+                            <td colspan='8'>
+                                <div class="alert alert-warning text-center"> Maaf belum ada data cluster</div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        {% for data in data_cluster %}
+                            <tr>
+                                <td>#</td>
+                                <td>{{data.nilai_skp}}</td>
+                                <td>{{data.orientasi}}</td>
+                                <td>{{data.integritas}}</td>
+                                <td>{{data.komitmen}}</td>
+                                <td>{{data.disiplin}}</td>
+                                <td>{{data.kerjasama}}</td>
+                                <td>{{data.label}}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -24,10 +24,12 @@ def create_app():
 
     app.config.from_mapping(config)
 
-    from .blueprint import auth, dashboard, bpegawai
+    from .blueprint import auth, dashboard, bpegawai, clustering, predict
     app.register_blueprint(auth)
     app.register_blueprint(dashboard)
     app.register_blueprint(bpegawai)
+    app.register_blueprint(clustering)
+    app.register_blueprint(predict)
 
     return app
 
