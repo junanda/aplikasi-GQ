@@ -20,6 +20,7 @@ def index():
 @dashboard.route('/data-aspek/<pg>', methods=('POST', 'GET'))
 @dashboard.route('/data-aspek/tahun/<thun>', methods=('POST', 'GET'))
 @dashboard.route('/data-aspek/tahun/<thun>/<pg>', methods=('POST', 'GET'))
+@authentication
 def alldata(pg=0, thun="all"):
     l_active = 'active'
     dis_able = True
