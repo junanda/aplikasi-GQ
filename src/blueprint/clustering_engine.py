@@ -1,5 +1,4 @@
 from flask import Blueprint, render_template, redirect, url_for
-from sqlalchemy.orm import sessionmaker
 from ..tools import authentication
 from ..main import db
 from sklearn.cluster import KMeans
@@ -17,7 +16,7 @@ def index(pg=0):
     l_active = 'active'
     disabled = True
     # query data cluster dengan pagination
-    query = f"select id_aspek, nilai_skp, orientasi, integritas, komitmen, disiplin, kerjasama, label from nilai_aspek_pegawai where label != 'none' limit 15 offset {str(int(pg)*15)}"
+    query = f"select id_aspek, nilai_skp, orientasi, integritas, komitmen, disiplin, kerjasama, label from nilai_aspek_pegawai where label != 'none' limit 20 offset {str(int(pg)*20)}"
     # query untuk mengambil seluruh data nilai_aspek_pegawai
     query2 = "select * from nilai_aspek_pegawai where label !=''"
     dataPag = db.engine.execute(query).fetchall()
@@ -28,7 +27,7 @@ def index(pg=0):
     dataCluster1 = db.engine.execute("select * from nilai_aspek_pegawai where label='0'").fetchall()
     dataCluster2 = len(countRow) - len(dataCluster1)
     data_no_label = len(allData) - len(countRow)
-    totalPage = math.ceil(len(countRow)/15)
+    totalPage = math.ceil(len(countRow)/20)
     if int(pg) > 0 and int(pg) <= totalPage:
         disabled = False
     return render_template(

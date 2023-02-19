@@ -12,7 +12,7 @@ dashboard = Blueprint('dashboard', __name__, url_prefix='/dashbord')
 @authentication
 def index():
     l_active = 'active'
-    return render_template('dashboard.html', active_a=l_active)
+    return render_template('home_page.html', active_a=l_active)
 
 
 # list data aspek nilia pegawai
@@ -26,15 +26,15 @@ def alldata(pg=0, thun="all"):
     dis_able = True
 
     if thun != 'all':
-        query = f"select a.nama_pegawai, b.* from pegawai a inner join nilai_aspek_pegawai b on a.id_pegawai=b.id_pegawai where b.tahun='{thun}' limit 10  offset {str(int(pg)*10)}"
+        query = f"select a.nama_pegawai, b.* from pegawai a inner join nilai_aspek_pegawai b on a.id_pegawai=b.id_pegawai where b.tahun='{thun}' limit 20  offset {str(int(pg)*20)}"
         query2 = f"select a.nama_pegawai, b.* from pegawai a inner join nilai_aspek_pegawai b on a.id_pegawai=b.id_pegawai where b.tahun='{thun}'"
     else:
-        query = f"select a.nama_pegawai, b.* from pegawai a inner join nilai_aspek_pegawai b on a.id_pegawai=b.id_pegawai limit 10 offset {str(int(pg)*10)}"
+        query = f"select a.nama_pegawai, b.* from pegawai a inner join nilai_aspek_pegawai b on a.id_pegawai=b.id_pegawai limit 20 offset {str(int(pg)*20)}"
         query2 = f"select a.nama_pegawai, b.* from pegawai a inner join nilai_aspek_pegawai b on a.id_pegawai=b.id_pegawai"
     
     dataPegawai = db.engine.execute(query)
     allRow = db.engine.execute(query2)
-    totalPage = math.ceil(len(allRow.fetchall())/10)
+    totalPage = math.ceil(len(allRow.fetchall())/20)
 
     if int(pg) > 0 and int(pg) <= totalPage:
         dis_able = False
