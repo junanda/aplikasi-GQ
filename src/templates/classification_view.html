@@ -1,0 +1,164 @@
+{% extends "dashboard.html" %}
+{% block body %}
+    <div class="bg-light border rounded-3" style="padding: 10px;min-height: 800px;">
+        <h2>KNN Classification</h2>
+        <div class="row">
+            <div class="col-6">
+                <img src="{{ url_for('static',filename='images/find_fit_k.png') }}" alt="k optimum" class="img-fluid">
+                <p class="lead text-center">
+                    Gambar hasil pengujian untuk menentukan nilai K yang optimum dengan melakukan training dan testing dengan Algorithms KNN
+                </p>
+            </div>
+            <div class="col-6">
+                <h4>Information</h4>
+                <dl class="row">
+                    <dt class="col-sm-4">Algorithms</dt>
+                    <dd class="col-sm-8">k-Nearest Neighbors (kNN) Classification Algorithms</dd>
+
+                    <dt class="col-sm-4">Number of Label/Class</dt>
+                    <dd class="col-sm-8">2 Label/Class</dd>
+
+                    <dt class="col-sm-4">Number of Data</dt>
+                    <dd class="col-sm-8">{{alldata}} Data</dd>
+
+                    <dt class="col-sm-4">Models </dt>
+                    <dd class="col-sm-8">knn_model_v1.0</dd>
+
+                    <dt class="col-sm-4">Number of Neighbors </dt>
+                    <dd class="col-sm-8">3</dd>
+
+                    <dt class="col-sm-4">Metrics calculate</dt>
+                    <dd class="col-sm-8">Euclidean distance</dd>
+
+                    <dt class="col-sm-4">Feature</dt>
+                    <dd class="col-sm-8">Nilai skp, Orientasi, Integritas, Komitmen, Disiplin, Kerjasama</dd>
+
+                    <dt class="col-sm-4">Number of Data</dt>
+                    <dd class="col-sm-8">
+                        <dl class="row">
+                            <dt class="col-sm-4">Data Training</dt>
+                            <dd class="col-sm-8">{{data_train}} Data</dd>
+                            <dt class="col-sm-4">Data Testing</dt>
+                            <dd class="col-sm-8">{{data_test}} Data</dd>
+                        </dl>
+                    </dd>
+
+                </dl>
+            </div>
+            <br/>
+            <div class="col-6">
+                <h4>Confusion Matrics</h4>
+                <table class="table">
+                    <thead style="text-align: right;">
+                        <tr>
+                            <td></td>
+                            <td>Precision</td>
+                            <td>Recall</td>
+                            <td>f1-score</td>
+                            <td>support</td>
+                        </tr>
+                    </thead>
+                    <tbody style="text-align: right;">
+                        <tr>
+                            <td>0</td>
+                            <td>1.00</td>
+                            <td>1.00</td>
+                            <td>1.00</td>
+                            <td>21</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>1.00</td>
+                            <td>1.00</td>
+                            <td>1.00</td>
+                            <td>30</td>
+                        </tr>
+                        <tr>
+                            <td>Accuracy</td>
+                            <td colspan="2"></td>
+                            <td>1.00</td>
+                            <td>51</td>
+                        </tr>
+                        <tr>
+                            <td>Macro avg</td>
+                            <td>1.00</td>
+                            <td>1.00</td>
+                            <td>1.00</td>
+                            <td>51</td>
+                        </tr>
+                        <tr>
+                            <td>weighted avg</td>
+                            <td>1.00</td>
+                            <td>1.00</td>
+                            <td>1.00</td>
+                            <td>51</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-6">
+                <img src="{{ url_for('static',filename='images/cf_matrics.png') }}" alt="Confusion Matrics" class="img-fluid justify-content-center">
+                <p class="lead text-center">
+                    Gambar True Positif dan True Negatif dengan Confusion Matrics
+                </p>
+            </div>
+        </div>
+        <div class="row mt-20">
+            <h4>Form Classification</h4>
+            <div class="col-7">
+                <form action="{{request.path }}" method="post">
+                    <div class="row align-items-start">
+                        <div class="col-4">
+                            <div>
+                                <label for="nilai skp" class="form-label">Nilai SKP</label>
+                                <input type="number" step=any class="form-control" id="nilai_skp" name="nilai_skp" placeholder="0.0" required>
+                            </div>
+                            <div>
+                                <label for="nilai orientasi" class="form-label">Orientasi</label>
+                                <input type="number" step=any class="form-control" id="orientasi" name="orientasi" placeholder="0.0" required>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div>
+                                <label for="nilai integritas" class="form-label">Integritas</label>
+                                <input type="number" step=any class="form-control" id="integritas" name="integritas" placeholder="0.0" required>
+                            </div>
+                            <div>
+                                <label for="nilai komitmen" class="form-label">Komitmen</label>
+                                <input type="number" step=any class="form-control" id="komitmen" name="komitmen" placeholder="0.0" required>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div>
+                                <label for="nilai disiplin" class="form-label">Disiplin</label>
+                                <input type="number" step=any class="form-control" id="disiplin" name="disiplin" placeholder="0.0" required>
+                            </div>
+                            <div>
+                                <label for="nilai kerjasama" class="form-label">Kerjasama</label>
+                                <input type="number" step=any class="form-control" id="kerjasama" name="kerjasama" placeholder="0.0" required>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <button type="submit" class="btn btn-primary">Predict</button>
+                </form>
+            </div>
+            <div class="col-5">
+                <p class="lead">Keterangan</p>
+                <p>Untuk mengetahui klasifikasi sebuah data yang belum diketahui kelas dari data tersebut dapat menggunakan form disamping. Masukkan nilai dari setiap aspek yang akan menjadi nilai fitur dari tersebut.</p>
+            </div>
+            <div class="col-12">
+                <h4>Result</h4>
+                {% if predict%}
+                    <p class="alert alert-primary text-center">
+                        Prediksi class dari data adalah : <b>{{predict}}</b> 
+                    </p>
+                {% else %}
+                    <p class="alert alert-warning text-center">
+                        Tidak ada data yang di proses.
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock body %}

@@ -1,6 +1,9 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import os
+import joblib
+
+global model_knn
 
 db = SQLAlchemy()
 config = {
@@ -12,6 +15,12 @@ passDB = os.getenv("PASS_DB")
 host = os.getenv("HOST_DB")
 dbName = os.getenv("NAME_DB")
 
+model_tmp = 'model_train/knn_model_v1.0.sav'
+
+def load_model(name_model):
+    return joblib.load(open(name_model, 'rb'))
+
+model_knn = load_model(model_tmp)
 
 def create_app():
     app = Flask(__name__)
