@@ -56,76 +56,58 @@
         </div>
     </div>
     <div class="row" style="margin-top: 10px;">
-        <div class="col-12">
-            <h4>Data cluster</h4>
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Nilai SKP</th>
-                        <th>Orientasi</th>
-                        <th>Integritas</th>
-                        <th>Komitmen</th>
-                        <th>Disiplin</th>
-                        <th>Kerjasama</th>
-                        <th>Cluster</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% if data_cluster|length == 0 %}
-                        <tr>
-                            <td colspan='8'>
-                                <div class="alert alert-warning text-center"> Maaf belum ada data cluster</div>
-                            </td>
-                        </tr>
-                    {% else %}
-                        {% for data in data_cluster %}
-                            <tr>
-                                <td>#</td>
-                                <td>{{data.nilai_skp}}</td>
-                                <td>{{data.orientasi}}</td>
-                                <td>{{data.integritas}}</td>
-                                <td>{{data.komitmen}}</td>
-                                <td>{{data.disiplin}}</td>
-                                <td>{{data.kerjasama}}</td>
-                                {% if data.label == "0" %}
-                                    <td> Cluster Satu <td>
-                                {% else %}
-                                    <td> Cluster Dua </td>
-                                {% endif %}
-                            </tr>
-                        {% endfor %}
-                    {% endif %}
-                </tbody>
-            </table>
-            <nav aria-label="Page navigation example">
-                {% set number = hal|int + 1 %}
-                {% set prenumber = hal|int - 1 %}
-               <ul class="pagination justify-content-center">
-                   {% if disabled %}
-                       <li class="page-item disabled">
-                   {% else %}
-                       <li class="page-item">
-                   {% endif %}
-                       <a class="page-link" href="/clustering/{{prenumber}}">Previous</a>
-                   </li>
-                   {% for n in range(1, total_page) %}
-                       {% if hal|int == n %}
-                           <li class="page-item disabled"><a class="page-link" href="/clustering/{{n}}">{{n}}</a></li>
-                       {% else %}
-                           <li class="page-item"><a class="page-link" href="/clustering/{{n}}">{{n}}</a></li>
-                       {% endif %}
-                   {% endfor %}
-                   {% if number == total_page %}
-                       <li class="page-item disabled">
-                   {% else %}
-                       <li class="page-item">
-                   {% endif %}
-                       <a class="page-link" href="/clustering/{{number}}">Next</a>
-                   </li>
-               </ul>
-           </nav>
+         <h4>K-Means Models</h4>
+        <div class="col-7">
+            <!-- <form enctype="multipart/form-data" method="post"> -->
+                <div class="mb-3">
+                    <label for="formFile" class="form-label">Import File Excel</label>
+                    <input class="form-control" type="file" id="file" name="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required>
+                </div>
+                <button class="btn btn-primary" id="import">Import File</button>
+            <!-- </form> -->
         </div>
+        <div class="col-5">
+            <p class="lead">Keterangan</p>
+            <p>Untuk mengetahui cluster/kelompok sebuah data yang belum diketahui dapat menggunakan form disamping. Masukkan file excel yang berisi data yang akan di cari cluster/kelompoknya.</p>
+        </div>
+        <p id="msg"></p>
     </div>
 </div>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+    let url = "{{request.path}}"
+    $("#file").change(function(){
+        $("#import").prop("disabled", false);
+    })
+
+    $("#import").on("click", function(){
+        var form_data = new FormData();
+        form_data.append('file',$("#file").prop('files')[0])
+        $.ajax({
+            url:`${url}file-excel`,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            data: form_data,
+            type: 'post',
+            success: function(response){
+                $("#msg").html("");
+                $.each(response, function(key, data){
+                    if(key !== 'message'){
+                        $("#msg").append(key + ' -> ' + data + '<br/>');
+                    }else{
+                        $("#msg").append(data +'<br/>');
+                    }
+                })
+                $("#file").val("")
+                $("#import").prop("disabled", true);
+            },
+            error: function(response) {
+                $("#msg").html(response.message);
+            }
+        })
+    })
+</script>
 {% endblock %}
