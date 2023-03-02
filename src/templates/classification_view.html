@@ -106,42 +106,11 @@
         <div class="row mt-20">
             <h4>Form Classification</h4>
             <div class="col-7">
-                <form action="{{request.path }}" method="post">
-                    <div class="row align-items-start">
-                        <div class="col-4">
-                            <div>
-                                <label for="nilai skp" class="form-label">Nilai SKP</label>
-                                <input type="number" step=any class="form-control" id="nilai_skp" name="nilai_skp" placeholder="0.0" required>
-                            </div>
-                            <div>
-                                <label for="nilai orientasi" class="form-label">Orientasi</label>
-                                <input type="number" step=any class="form-control" id="orientasi" name="orientasi" placeholder="0.0" required>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div>
-                                <label for="nilai integritas" class="form-label">Integritas</label>
-                                <input type="number" step=any class="form-control" id="integritas" name="integritas" placeholder="0.0" required>
-                            </div>
-                            <div>
-                                <label for="nilai komitmen" class="form-label">Komitmen</label>
-                                <input type="number" step=any class="form-control" id="komitmen" name="komitmen" placeholder="0.0" required>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div>
-                                <label for="nilai disiplin" class="form-label">Disiplin</label>
-                                <input type="number" step=any class="form-control" id="disiplin" name="disiplin" placeholder="0.0" required>
-                            </div>
-                            <div>
-                                <label for="nilai kerjasama" class="form-label">Kerjasama</label>
-                                <input type="number" step=any class="form-control" id="kerjasama" name="kerjasama" placeholder="0.0" required>
-                            </div>
-                        </div>
-                    </div>
-                    <br/>
-                    <button type="submit" class="btn btn-primary">Predict</button>
-                </form>
+                <div class="mb-3">
+                    <label for="formFile" class="form-label">Import File Excel</label>
+                    <input class="form-control" type="file" id="excelFile" name="excelFile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required>
+                </div>
+                <button class="btn btn-primary" id="load" disabled="true">Import File</button>
             </div>
             <div class="col-5">
                 <p class="lead">Keterangan</p>
@@ -149,6 +118,7 @@
             </div>
             <div class="col-12">
                 <h4>Result</h4>
+                <p id="msg"></p>
                 {% if predict%}
                     <p class="alert alert-primary text-center">
                         Prediksi class dari data adalah : <b>{{predict}}</b> 
@@ -162,3 +132,41 @@
         </div>
     </div>
 {% endblock body %}
+
+{% block js %}
+<script type="text/javascript">
+    let urlit = "{{request.path}}";
+
+    $("#excelFile").change(function(){
+        $("#load").prop("disabled", false);
+    })
+
+    $("#load").on("click", function(){
+        var form_data = new FormData();
+        form_data.append('file',$("#excelFile").prop('files')[0])
+        $.ajax({
+            url:`${urlit}load-file`,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            data: form_data,
+            type: 'post',
+            success: function(response){
+                $("#msg").html("");
+                $.each(response, function(key, data){
+                    if(key !== 'message'){
+                        $("#msg").append(key + ' -> ' + data + '<br/>');
+                    }else{
+                        $("#msg").append(data +'<br/>');
+                    }
+                })
+                $("#excelFile").val("")
+                $("#load").prop("disabled", true);
+            },
+            error: function(response) {
+                $("#msg").html(response.message);
+            }
+        })
+    })
+</script>
+{% endblock %}

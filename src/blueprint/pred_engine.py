@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, json, jsonify
 from ..tools import authentication
 from ..main import db
 from ..main import model_knn
@@ -49,5 +49,19 @@ def index():
         data_train=train,
         data_test=test
         )
+
 # predict classification
+@predict.route('/load-file', methods=['POST'])
+def readFileExcel():
+    response = any
+    file = request.files['file']
+    data = pd.read_excel(file)
+    data_ex = data.to_json(orient="records")
+    parsed = json.loads(data_ex)
+    print(parsed[1:])
+    response = jsonify({"message": "success", "data": parsed})
+    response.status_code = 200
+
+    return response
+
 # show class predict
