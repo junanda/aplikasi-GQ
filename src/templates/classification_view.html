@@ -106,59 +106,70 @@
         <div class="row mt-20">
             <h4>Form Classification</h4>
             <div class="col-7">
-                <form action="{{request.path }}" method="post">
-                    <div class="row align-items-start">
-                        <div class="col-4">
-                            <div>
-                                <label for="nilai skp" class="form-label">Nilai SKP</label>
-                                <input type="number" step=any class="form-control" id="nilai_skp" name="nilai_skp" placeholder="0.0" required>
-                            </div>
-                            <div>
-                                <label for="nilai orientasi" class="form-label">Orientasi</label>
-                                <input type="number" step=any class="form-control" id="orientasi" name="orientasi" placeholder="0.0" required>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div>
-                                <label for="nilai integritas" class="form-label">Integritas</label>
-                                <input type="number" step=any class="form-control" id="integritas" name="integritas" placeholder="0.0" required>
-                            </div>
-                            <div>
-                                <label for="nilai komitmen" class="form-label">Komitmen</label>
-                                <input type="number" step=any class="form-control" id="komitmen" name="komitmen" placeholder="0.0" required>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div>
-                                <label for="nilai disiplin" class="form-label">Disiplin</label>
-                                <input type="number" step=any class="form-control" id="disiplin" name="disiplin" placeholder="0.0" required>
-                            </div>
-                            <div>
-                                <label for="nilai kerjasama" class="form-label">Kerjasama</label>
-                                <input type="number" step=any class="form-control" id="kerjasama" name="kerjasama" placeholder="0.0" required>
-                            </div>
-                        </div>
-                    </div>
-                    <br/>
-                    <button type="submit" class="btn btn-primary">Predict</button>
-                </form>
+                <div class="mb-3">
+                    <label for="formFile" class="form-label">Import File Excel</label>
+                    <input class="form-control" type="file" id="excelFile" name="excelFile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" required>
+                </div>
+                <button class="btn btn-primary" id="load" disabled="true">Import File</button>
             </div>
             <div class="col-5">
                 <p class="lead">Keterangan</p>
                 <p>Untuk mengetahui klasifikasi sebuah data yang belum diketahui kelas dari data tersebut dapat menggunakan form disamping. Masukkan nilai dari setiap aspek yang akan menjadi nilai fitur dari tersebut.</p>
             </div>
             <div class="col-12">
-                <h4>Result</h4>
-                {% if predict%}
-                    <p class="alert alert-primary text-center">
-                        Prediksi class dari data adalah : <b>{{predict}}</b> 
-                    </p>
-                {% else %}
-                    <p class="alert alert-warning text-center">
-                        Tidak ada data yang di proses.
-                    </p>
-                {% endif %}
+                <div class="row">
+                    <div class="col-2">
+                        <button class="btn btn-primary" id="btn-next" data-next="distance" hidden>Calculate distance</button>
+                    </div>
+                    <div class="col-9">
+                        <p class="lead text-center" id="now-step"></p>
+                    </div>
+                    <div class="col-1">
+                        <div class="mb-3" id="sel-k" hidden>
+                            <label for="tetangga" class="form-label">Jumlah K </label>
+                            <select name="tetangga" id="tetangga" class="form-control" disabled="true"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive" id="show">
+                    <table class="table table-hover" id="tabledata">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>Nilai SKP</th>
+                                <th>Orientasi</th>
+                                <th>Integritas</th>
+                                <th>Komitmen</th>
+                                <th>Disiplin</th>
+                                <th>Kerjasama</th>
+                            </tr>
+                        </thead>
+                        <tbody id="data-list">
+                            <tr><td colspan="8"><p class="alert alert-warning text-center">Tidak ada data excel yang di load</p></td></tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>Nilai SKP</th>
+                                <th>Orientasi</th>
+                                <th>Integritas</th>
+                                <th>Komitmen</th>
+                                <th>Disiplin</th>
+                                <th>Kerjasama</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 {% endblock body %}
+
+{% block js %}
+<script type="text/javascript">
+    let urlit = "{{request.path}}";
+</script>
+<script src="{{url_for('static',filename='js/pro.class.js')}}"></script>
+{% endblock %}

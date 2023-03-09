@@ -54,7 +54,18 @@
     {% endblock %}
   </div>
   <br/>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
   <script src="{{url_for('static',filename='js/bootstrap.bundle.min.js')}}"></script>
+  <script type="text/javascript">
+      $(document).ready(function(e){
+          let valFile = $("#file").val();
+          if(valFile == ""){
+              $("#import").prop("disabled", true);
+          }
+      })
+  </script>
+  {% block js %}
+  {% endblock %}
 </body>
 
 </html>
