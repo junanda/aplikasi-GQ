@@ -117,17 +117,51 @@
                 <p>Untuk mengetahui klasifikasi sebuah data yang belum diketahui kelas dari data tersebut dapat menggunakan form disamping. Masukkan nilai dari setiap aspek yang akan menjadi nilai fitur dari tersebut.</p>
             </div>
             <div class="col-12">
-                <h4>Result</h4>
-                <p id="msg"></p>
-                {% if predict%}
-                    <p class="alert alert-primary text-center">
-                        Prediksi class dari data adalah : <b>{{predict}}</b> 
-                    </p>
-                {% else %}
-                    <p class="alert alert-warning text-center">
-                        Tidak ada data yang di proses.
-                    </p>
-                {% endif %}
+                <div class="row">
+                    <div class="col-2">
+                        <button class="btn btn-primary" id="btn-next" data-next="distance" hidden>Calculate distance</button>
+                    </div>
+                    <div class="col-9">
+                        <p class="lead text-center" id="now-step"></p>
+                    </div>
+                    <div class="col-1">
+                        <div class="mb-3" id="sel-k" hidden>
+                            <label for="tetangga" class="form-label">Jumlah K </label>
+                            <select name="tetangga" id="tetangga" class="form-control" disabled="true"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive" id="show">
+                    <table class="table table-hover" id="tabledata">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>Nilai SKP</th>
+                                <th>Orientasi</th>
+                                <th>Integritas</th>
+                                <th>Komitmen</th>
+                                <th>Disiplin</th>
+                                <th>Kerjasama</th>
+                            </tr>
+                        </thead>
+                        <tbody id="data-list">
+                            <tr><td colspan="8"><p class="alert alert-warning text-center">Tidak ada data excel yang di load</p></td></tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>Nilai SKP</th>
+                                <th>Orientasi</th>
+                                <th>Integritas</th>
+                                <th>Komitmen</th>
+                                <th>Disiplin</th>
+                                <th>Kerjasama</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -136,37 +170,6 @@
 {% block js %}
 <script type="text/javascript">
     let urlit = "{{request.path}}";
-
-    $("#excelFile").change(function(){
-        $("#load").prop("disabled", false);
-    })
-
-    $("#load").on("click", function(){
-        var form_data = new FormData();
-        form_data.append('file',$("#excelFile").prop('files')[0])
-        $.ajax({
-            url:`${urlit}load-file`,
-            dataType: 'json',
-            contentType: false,
-            processData: false,
-            data: form_data,
-            type: 'post',
-            success: function(response){
-                $("#msg").html("");
-                $.each(response, function(key, data){
-                    if(key !== 'message'){
-                        $("#msg").append(key + ' -> ' + data + '<br/>');
-                    }else{
-                        $("#msg").append(data +'<br/>');
-                    }
-                })
-                $("#excelFile").val("")
-                $("#load").prop("disabled", true);
-            },
-            error: function(response) {
-                $("#msg").html(response.message);
-            }
-        })
-    })
 </script>
+<script src="{{url_for('static',filename='js/pro.class.js')}}"></script>
 {% endblock %}

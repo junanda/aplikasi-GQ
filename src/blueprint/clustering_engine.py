@@ -71,7 +71,7 @@ def importFile():
     data.columns = name_col
     data_ex = data.to_json(orient="records")
     parsed = json.loads(data_ex)
-    resp = jsonify({"message": "success", "data": parsed[1:]})
+    resp = jsonify({"message": "success", "data": parsed})
     resp.status_code = 200
 
     return resp
