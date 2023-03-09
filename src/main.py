@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 import os
 import joblib
 
@@ -24,6 +25,7 @@ model_knn = load_model(model_tmp)
 
 def create_app():
     app = Flask(__name__)
+    CORS(app)
     app.secret_key = "lansdjkacnkaj1234"
 
     app.config["SQLALCHEMY_DATABASE_URI"] = f'mysql+pymysql://{userDb}:{passDB}@{host}/{dbName}'
