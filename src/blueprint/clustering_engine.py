@@ -5,7 +5,9 @@ from ..tools import authentication
 from ..main import db
 from sklearn.cluster import KMeans
 from scipy.spatial.distance import euclidean
+from ..model import NilaiAspekPegawai
 import pandas as pd
+from sqlalchemy import exc
 
 
 clustering = Blueprint('clustering', __name__, url_prefix='/clustering')
@@ -106,6 +108,63 @@ def prosesPerhitungan():
 
     return response
 
+@clustering.route('/save-calculate', methods=['POST','GET'])
+def simpanDataCLustering():
+    dataSave = []
+    dataFront = request.get_json()
+    
+    pegawai_dic = storePegawaiMemory()
+    name_pegawai = pegawai_dic.keys()
+    
+    try:
+        for n in dataFront["data"]:
+            idp = ''
+            print(n)
+            if n['nama'] is None: 
+                continue
+
+            if n['nama'].lower() in name_pegawai:
+                idp = pegawai_dic[n['nama'].lower()]
+            else:
+                continue
+
+            x = NilaiAspekPegawai(
+                id_pegawai=idp,
+                nilai_skp=n['nilai_skp'],
+                orientasi=n['orientasi'],
+                integritas=n['integritas'],
+                komitmen=n['komitmen'],
+                disiplin=n['disiplin'],
+                kerjasama=n['kerjasama']
+            )            
+            
+            if n['jarak_centroid_0'] < n['jarak_centroid_1']:
+                x.label = 0
+            else:
+                x.label = 1
+            x.tahun = '2000'
+            db.session.add(x)
+        
+        db.session.commit()
+    except exc.SQLAlchemyError as err:
+        print(err)
+        return jsonify({
+            'message': 'success',
+            'informasi': 'data gagal di inputkan'
+        })
+
+    return jsonify({
+        'message': 'success',
+        'informasi': 'data berhasil di simpan'
+    })
+
+
+def storePegawaiMemory():
+    dic_data = dict()
+    data = db.engine.execute("select id_pegawai, nama_pegawai from pegawai").fetchall()
+    for n in data:
+        dic_data[n['nama_pegawai'].lower()] = n['id_pegawai']
+    return dic_data
 
 def convDfToJson(df):
     data_ex = df.to_json(orient="records")

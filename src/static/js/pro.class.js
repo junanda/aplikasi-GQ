@@ -211,7 +211,7 @@ $("#load").on("click", function () {
                         <td>${val.komitmen}</td>
                         <td>${val.disiplin}</td>
                         <td>${val.kerjasama}</td>`;
-            (classL[key].class1 > classL[key].class2) ? tr_html += '<td class="table-primary">0</td>' : tr_html += '<td class="table-info">1</td>';
+            (classL[key].class1 > classL[key].class2) ? tr_html += '<td class="table-primary">1</td>' : tr_html += '<td class="table-info">2</td>';
             tr_html += '</tr>';
         });
 
