@@ -1,5 +1,88 @@
 {% extends "dashboard.html" %}
 {% block body %}
 <div class="bg-light border rounded-3" style="padding: 10px;min-height: 800px;">
+    <h2>K-Means Clustering</h2>
+    <div class="row">
+        <div class="col-6">
+            <img src="{{ url_for('static',filename='images/elbow.png') }}" alt="image elbow" class="img-fluid">
+            <p class="lead text-center">
+                Gambar hasil pengujian untuk menentukan cluster yang optimum dengan metode Elbow
+            </p>
+        </div>
+        <div class="col-6">
+            <p class="lead">Informasi</p>
+            <p>... isi konten ...</p>
+        </div>
+    </div>
+    <br/>
+    <h2>KNN Classification</h2>
+    <div class="row">
+        <div class="col-6">
+            <img src="{{ url_for('static',filename='images/find_fit_k.png') }}" alt="k optimum" class="img-fluid">
+            <p class="lead text-center">
+                Gambar hasil pengujian untuk menentukan nilai K yang optimum dengan melakukan training dan testing dengan Algorithms KNN
+            </p>
+        </div>
+        <div class="col-6">
+            <p class="lead">Informasi</p>
+            <p>... content penjelasan...</p>
+        </div>
+        <div class="col-6">
+            <h4>Confusion Matrics</h4>
+            <table class="table">
+                <thead style="text-align: right;">
+                    <tr>
+                        <td></td>
+                        <td>Precision</td>
+                        <td>Recall</td>
+                        <td>f1-score</td>
+                        <td>support</td>
+                    </tr>
+                </thead>
+                <tbody style="text-align: right;">
+                    <tr>
+                        <td>0</td>
+                        <td>1.00</td>
+                        <td>1.00</td>
+                        <td>1.00</td>
+                        <td>21</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>1.00</td>
+                        <td>1.00</td>
+                        <td>1.00</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <td>Accuracy</td>
+                        <td colspan="2"></td>
+                        <td>1.00</td>
+                        <td>51</td>
+                    </tr>
+                    <tr>
+                        <td>Macro avg</td>
+                        <td>1.00</td>
+                        <td>1.00</td>
+                        <td>1.00</td>
+                        <td>51</td>
+                    </tr>
+                    <tr>
+                        <td>weighted avg</td>
+                        <td>1.00</td>
+                        <td>1.00</td>
+                        <td>1.00</td>
+                        <td>51</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-6">
+            <img src="{{ url_for('static',filename='images/cf_matrics.png') }}" alt="Confusion Matrics" class="img-fluid justify-content-center">
+            <p class="lead text-center">
+                Gambar True Positif dan True Negatif dengan Confusion Matrics
+            </p>
+        </div>
+    </div>
 </div>
 {% endblock %}
