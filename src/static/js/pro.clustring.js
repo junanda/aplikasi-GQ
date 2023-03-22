@@ -59,10 +59,12 @@ $("#btn-next").click(function () {
             next_step = 'label';
             break;
         case 'label':
-            next_step = 'finish'
+            next_step = 'save'
             break;
+        case 'save':
+            next_step = 'finish'
     }
-    if (now_step !== 'label') {
+    if (now_step !== 'save') {
         $(this).text(`Next ${next_step}`);
         $(this).attr("data-next", next_step);
     } else {
@@ -87,15 +89,28 @@ $("#btn-next").click(function () {
                         <td class="table-info">${data.jarak_centroid_0}</td>
                         <td class="table-primary">${data.jarak_centroid_1}</td>`
             if (data.jarak_centroid_0 < data.jarak_centroid_1) {
-                row += '<td class="table-success">Cluster 0 </td>';
+                row += '<td class="table-success">Cluster 1 </td>';
             } else {
-                row += '<td class="table-danger">Cluster 1 </td>'
+                row += '<td class="table-danger">Cluster 2 </td>'
             }
             row += '</tr>';
         });
 
         $("#list-data").html(row);
         p_info.text("Proses Akhir pada K-Means Clustering");
+        
+    } else if(now_step === 'save'){
+        $.ajax({
+            url: `${url}save-calculate`,
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify({'data': dataExlabel}),
+            type: 'post',
+            success: function (res) {
+                alert(res['informasi']);
+                location.reload();
+            }
+        })
     } else {
         $.ajax({
             url: `${url}calculate`,
