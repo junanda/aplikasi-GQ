@@ -17,12 +17,11 @@ class NilaiAspekPegawai(db.Model):
                            server_default=func.now())
     updated_at = db.Column(db.DateTime(timezone=True))
 
-    def __init__(self, id_pegawai, nilia_skp, orientasi, integritas, komitmen, disiplin, kerjasama, tahun) -> None:
+    def __init__(self, id_pegawai, nilai_skp, orientasi, integritas, komitmen, disiplin, kerjasama) -> None:
         self.id_pegawai = id_pegawai
-        self.nilai_skp = nilia_skp
+        self.nilai_skp = nilai_skp
         self.orientasi = orientasi
         self.integritas = integritas
         self.komitmen = komitmen
         self.disiplin = disiplin
         self.kerjasama = kerjasama
-        self.tahun = tahun
