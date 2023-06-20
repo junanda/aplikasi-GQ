@@ -22,7 +22,7 @@ def calculate_predict():
 
     data_calculasi = db.engine.execute("select nilai_skp, orientasi, integritas, komitmen, disiplin, kerjasama, label from nilai_aspek_pegawai where label !=''").fetchall()
     
-    data_test = [float(val) for n, val in calculate_data.items()]
+    data_test = [float(val) for n, val in calculate_data['data'].items()]
     
     for i, row in enumerate(data_calculasi):
         data_model[f"Data_{i+1}"] = {"value":[row.nilai_skp, row.orientasi, row.integritas, row.komitmen, row.disiplin, row.kerjasama],"label":row.label}
@@ -48,11 +48,11 @@ def calculate_predict():
             label_2 += 1
     
     if label_1 > label_2:
-        label = '1'
+        label = 'Layak'
     else:
-        label = '2'
+        label = 'Tidak Layak'
     
-    data_result = {"label": label, "jumlah_ketetanggaan": data_test[-1], "jarak_minimum": doc_sort[0]['jarak'], "jarak_maksimum":doc_sort[-1]['jarak']}
+    data_result = {"nama":calculate_data['nama'], "label": label, "jumlah_ketetanggaan": data_test[-1], "jarak_minimum": doc_sort[0]['jarak'], "jarak_maksimum":doc_sort[-1]['jarak']}
 
     resutl = jsonify({"message":"success", "data": data_result})
     return resutl
