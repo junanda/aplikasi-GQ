@@ -3,3 +3,4 @@ from .dashboard import dashboard
 from .pegawai import bpegawai
 from .pred_engine import predict
 from .clustering_engine import clustering
+from .uji_prediksi import ujimetode
